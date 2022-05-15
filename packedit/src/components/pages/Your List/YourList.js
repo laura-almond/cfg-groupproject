@@ -1,17 +1,26 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { db } from "../../firebase-config";
+import { collection, getDocs } from "firebase/firestore";
+
 import NavBar from "../../NavBar";
 import AddItem from "./AddItem";
 import Item from "./ListBody/Item";
 import ListBody from "./ListBody/ListBody";
-import "../../../../src/styles/YourList.scss";
 import DisplayCategories from "./DisplayCategories/DisplayCategories";
 import ListInfo from "./ListInfo";
+
+import "../../../../src/styles/YourList.scss";
 import { propTypes } from "react-bootstrap/esm/Image";
 
 const YourList = ({ categoryarray }) => {
   // Setting states
+  // setList function used to alter the list
+  const [myList, setMyList] = useState();
+  //getting data from firebase
+  const myListCollectionRef = collection(db, "myList");
+
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState();
   const [inputValue, setInputValue] = useState("");
@@ -19,39 +28,53 @@ const YourList = ({ categoryarray }) => {
   const [itemCategory, setItemCategory] = useState("");
   //const [itemCategory, setItemCategory] = useState([categoryarray[1]]);
 
-  const mylist = {
-    listName: "Summer Holiday",
-    listDestination: "Maldives",
-    departureDate: "11/06/21",
-    listCategories: [
-      {
-        categoryName: "Clothes",
-        items: [{ itemName: "T-Shirt" }, { itemName: "Hat" }],
-      },
-      {
-        categoryName: "Electrics",
-        items: [
-          { itemName: "Laptop" },
-          { itemName: "Charger" },
-          { itemName: "Microwave" },
-          { itemName: "Tesla" },
-        ],
-      },
-      {
-        categoryName: "Food",
-        items: [
-          { itemName: "Banana" },
-          { itemName: "Toastie" },
-          { itemName: "Another banana" },
-        ],
-      },
-    ],
+  // const mylist = {
+  //   listName: "Summer Holiday",
+  //   listDestination: "Maldives",
+  //   departureDate: "11/06/21",
+  //   listCategories: [
+  //     {
+  //       categoryName: "Clothes",
+  //       items: [{ itemName: "T-Shirt" }, { itemName: "Hat" }],
+  //     },
+  //     {
+  //       categoryName: "Electrics",
+  //       items: [
+  //         { itemName: "Laptop" },
+  //         { itemName: "Charger" },
+  //         { itemName: "Microwave" },
+  //         { itemName: "Tesla" },
+  //       ],
+  //     },
+  //     {
+  //       categoryName: "Food",
+  //       items: [
+  //         { itemName: "Banana" },
+  //         { itemName: "Toastie" },
+  //         { itemName: "Another banana" },
+  //       ],
+  //     },
+  //   ],
+  // };
+
+  const getMyList = async () => {
+    const data = await getDocs(myListCollectionRef);
+    console.log(data.docs[0]._document.data.value.mapValue.fields);
+    setMyList(
+      data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
+    );
+    // setMyList(data.docs[0]._document.data.value.mapValue.fields);
   };
 
+  // useEffect to show data immediately when someone opens the page
+  // it's a function that is called every time the page renders
   useEffect(() => {
-    //load firebase data here
-    setData(mylist);
-    console.log(mylist);
+    getMyList();
+    console.log("HERHEEREHRHEH");
+    console.log(myList);
     //after receiving data, set isLoading to false
     setIsLoading(false);
   }, []);
@@ -75,14 +98,14 @@ const YourList = ({ categoryarray }) => {
         </div>
         <div className="row" style={{ paddingTop: "170px", paddingLeft: "2%" }}>
           <div className="col-3 mx-5 your-list-card">
-            <DisplayCategories data={data} />
+            <DisplayCategories data={myList} />
           </div>
           <div className="col ml-5" style={{ paddingRight: "7%" }}>
             <div className="row your-list-info-card">
-              <ListInfo data={data} />
+              <ListInfo data={myList} />
             </div>
             <div className="row mt-3">
-              {data.listCategories.map((category) => (
+              {myList.categories.mapValue.fields.map((category) => (
                 <ListBody data={category} items={items} setItems={setItems} />
               ))}
             </div>

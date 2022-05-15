@@ -14,10 +14,10 @@ function DisplayCategories(props) {
   return (
     <div className="container-fluid">
       <h3>List Categories</h3>
-      {props.data.listCategories.map((category) => (
+      {props.data.categories.mapValue.fields.map((category) => (
         <div className="row">
           <div className="col-10">
-            <p>{category.categoryName}</p>
+            <p>{category.catName}</p>
           </div>
           <div className="col-2">
             <button onClick={DeleteCategory}>X</button>

@@ -48,16 +48,16 @@ function ListItems(props) {
     <div className="your-list-card">
       <div className="row">
         <div className="col-11">
-          <h3>{props.data.categoryName}</h3>
+          <h3>{props.data.catName}</h3>
         </div>
         <div className="col-1">
           <button onClick={deleteCategory}>X</button>
         </div>
       </div>
-      {props.data.items.map((item) => (
+      {props.data.item.map((items) => (
         <div className="row">
           <div className="col-11">
-            <h6>{item.itemName}</h6>
+            <h6>{items.itemName}</h6>
           </div>
           <div className="col-1">
             <button onClick={deleteItem}>X</button>
