@@ -2,7 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { db } from "../../firebase-config";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  Firestore,
+  getDocs,
+  QuerySnapshot,
+} from "firebase/firestore";
 
 import NavBar from "../../NavBar";
 import AddItem from "./AddItem";
@@ -16,17 +21,16 @@ import { propTypes } from "react-bootstrap/esm/Image";
 
 const YourList = ({ categoryarray }) => {
   // Setting states
-  // setList function used to alter the list
-  const [myList, setMyList] = useState();
-  //getting data from firebase
-  const myListCollectionRef = collection(db, "myList");
-
+  const [myList, setMyList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState();
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState([]);
   const [itemCategory, setItemCategory] = useState("");
   //const [itemCategory, setItemCategory] = useState([categoryarray[1]]);
+
+  //getting data from firebase
+  const myListCollectionRef = collection(db, "myList");
 
   // const mylist = {
   //   listName: "Summer Holiday",
@@ -61,6 +65,8 @@ const YourList = ({ categoryarray }) => {
   // it's a function that is called every time the page renders
   useEffect(() => {
     const getMyList = async () => {
+      const getDataFromFirebase = [];
+
       const data = await getDocs(myListCollectionRef);
       console.log("This shows data");
       console.log(data.docs[0]._document.data.value.mapValue.fields);
@@ -76,7 +82,6 @@ const YourList = ({ categoryarray }) => {
       //after receiving data, set isLoading to false
       setIsLoading(false);
     };
-
     getMyList();
   }, []);
 
