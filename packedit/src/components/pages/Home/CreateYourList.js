@@ -5,27 +5,57 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import "../../../styles/CreateYourList.scss";
+import { useState, useEffect } from 'react';
+import {db} from '../../firebase-config';
+import { collection, getDocs, addDoc, arrayUnion, updateDoc, doc, deleteDoc, Timestamp, firestore } from 'firebase/firestore';
 
-function CreateYourList(props) {
+function CreateYourList() {
   //submit handler for when the user presses the submit button
   function submitHandler(e) {
     //to prevent the page from reloading/refreshing
     //this is bad because it resets the state, if we have any
     e.preventDefault();
-
-    const list = {
-      listName: e.target[0].value,
-      listDestination: e.target[1].value,
-      departureDate: e.target[2].value,
-      clothesCategory: e.target[3].checked,
-      documentsCategory: e.target[4].checked,
-      electronicsCategory: e.target[5].checked,
-      toiletriesCategory: e.target[6].checked,
-      covidCategory: e.target[7].checked,
-    };
-    //add to firebase later
-    console.log(list);
   }
+
+  const [myList, setMyList] = useState([]);
+  const myListCollectionRef = collection(db, "myList")
+  const [newListName, setNewListName] = useState("");
+  const [newDestination, setNewDestination] = useState("");
+  const [newDate, setNewDate] = useState("");
+  const [newCategories, setNewCategories] = useState([]);
+  
+  const createList = async (categoriesArray) => {
+    const timestampConverted = new Date(newDate);
+    newCategories = categoriesArray
+    await addDoc(myListCollectionRef, {
+      listName: newListName,
+      destination: newDestination,
+      date: timestampConverted,
+      ListCategories: arrayUnion(newCategories)
+    })
+  }
+
+  const handleCheck = async (event) => {
+      let isChecked = event.target.checked;
+      let category = event.target.label;
+      let categoriesArray = [];
+      if (isChecked) {
+        categoriesArray.push({
+          CategoryName: category,
+          CategoryItems: [], 
+        })
+      }
+      return categoriesArray
+  }
+
+  // maybe don't need useEffect here?
+  useEffect(() => {
+    const getMyList = async () => {
+        const data = await getDocs(myListCollectionRef);
+        setMyList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getMyList();
+  });
 
   return (
     <div>
@@ -39,6 +69,7 @@ function CreateYourList(props) {
                   className="input"
                   type="text"
                   placeholder="Summer Holiday"
+                  onChange={(event) => {setNewListName(event.target.value);}}
                 />
               </Form.Group>
             </Col>
@@ -49,6 +80,7 @@ function CreateYourList(props) {
                   className="input"
                   type="text"
                   placeholder="Maldives"
+                  onChange={(event) => {setNewDestination(event.target.value);}}
                 />
               </Form.Group>
             </Col>
@@ -60,6 +92,7 @@ function CreateYourList(props) {
                   type="date"
                   name="trip-date"
                   placeholder="Trip Date"
+                  onChange={(event) => {setNewDate(event.target.value);}}
                 />
               </Form.Group>
             </Col>
@@ -75,30 +108,40 @@ function CreateYourList(props) {
                 inline
                 type="checkbox"
                 label="Clothes"
+                id="string" // accessibility
+                onChange={() => {setNewCategories(handleCheck)}}
               />
               <Form.Check
                 className="categories-text"
                 inline
                 type="checkbox"
                 label="Documents"
+                id="string" //accessibility
+                onChange={() => {setNewCategories(handleCheck)}}
               />
               <Form.Check
                 className="categories-text"
                 inline
                 type="checkbox"
                 label="Electronics"
+                id="string" // accessibility
+                onChange={() => {setNewCategories(handleCheck)}}
               />
               <Form.Check
                 className="categories-text"
                 inline
                 type="checkbox"
                 label="Toiletries"
+                id="string" // accessibility
+                onChange={() => {setNewCategories(handleCheck)}}
               />
               <Form.Check
                 className="categories-text"
                 inline
                 type="checkbox"
                 label="COVID-19 Safety"
+                id="string" // accessibility
+                onChange={() => {setNewCategories(handleCheck)}}
               />
               <Form.Text className="categories-text text-muted">
                 <br />
@@ -110,6 +153,7 @@ function CreateYourList(props) {
             className="create-button create-button-text"
             variant="primary"
             type="submit"
+            onClick={createList}
           >
             Create your list
           </Button>
