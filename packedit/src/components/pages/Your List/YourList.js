@@ -61,9 +61,9 @@ const YourList = ({ categoryarray }) => {
   // it's a function that is called every time the page renders
   useEffect(() => {
     const getMyList = async () => {
-      const response = await getDocs(myListCollectionRef);
+      const data = await getDocs(myListCollectionRef);
       console.log("This shows data");
-      console.log(response.docs[0]._document.data.value.mapValue.fields);
+      console.log(data.docs[0]._document.data.value.mapValue.fields);
       // setMyList(
       //   data.docs.map((doc) => ({
       //     ...doc.data(),
