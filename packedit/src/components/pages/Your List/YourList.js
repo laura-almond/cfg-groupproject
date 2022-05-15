@@ -57,26 +57,27 @@ const YourList = ({ categoryarray }) => {
   //   ],
   // };
 
-  const getMyList = async () => {
-    const data = await getDocs(myListCollectionRef);
-    console.log(data.docs[0]._document.data.value.mapValue.fields);
-    setMyList(
-      data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }))
-    );
-    // setMyList(data.docs[0]._document.data.value.mapValue.fields);
-  };
-
   // useEffect to show data immediately when someone opens the page
   // it's a function that is called every time the page renders
   useEffect(() => {
+    const getMyList = async () => {
+      const response = await getDocs(myListCollectionRef);
+      console.log("This shows data");
+      console.log(response.docs[0]._document.data.value.mapValue.fields);
+      // setMyList(
+      //   data.docs.map((doc) => ({
+      //     ...doc.data(),
+      //     id: doc.id,
+      //   }))
+      // );
+      setMyList(data);
+      console.log("and this doesnt...");
+      console.log(myList);
+      //after receiving data, set isLoading to false
+      setIsLoading(false);
+    };
+
     getMyList();
-    console.log("HERHEEREHRHEH");
-    console.log(myList);
-    //after receiving data, set isLoading to false
-    setIsLoading(false);
   }, []);
 
   //Ternary operator to display data appropriately
