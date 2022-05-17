@@ -31,7 +31,7 @@ import logoPath from "../styles/Images/Logos/full-logo.png";
 //Bootstrap NavBar
 function NavBar() {
   return (
-    <div class="position-absolute top-0">
+    <div className="position-absolute top-0">
       <Navbar className="py-4 px-3" bg="light" expand="lg" fixed="top">
         <div>
           <Container>
@@ -46,7 +46,7 @@ function NavBar() {
             </Navbar.Brand>
           </Container>
         </div>
-        <div class="position-absolute end-0">
+        <div className="position-absolute end-0">
           <Container>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

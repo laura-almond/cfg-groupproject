@@ -10,12 +10,12 @@ import {db} from '../../firebase-config';
 import { collection, getDocs, addDoc, arrayUnion, updateDoc, doc, deleteDoc, Timestamp, firestore } from 'firebase/firestore';
 
 function CreateYourList() {
-  //submit handler for when the user presses the submit button
-  // function submitHandler(e) {
-  //   //to prevent the page from reloading/refreshing
-  //   //this is bad because it resets the state, if we have any
-  //   e.preventDefault();
-  // }
+  // submit handler for when the user presses the submit button
+  function submitHandler(e) {
+    //to prevent the page from reloading/refreshing
+    //this is bad because it resets the state, if we have any
+    e.preventDefault();
+  }
 
   const [myList, setMyList] = useState([]);
   const myListCollectionRef = collection(db, "myList")
@@ -30,8 +30,10 @@ function CreateYourList() {
     await addDoc(myListCollectionRef, {
       listName: newListName,
       destination: newDestination,
-      date: timestampConverted
-      // ListCategories: arrayUnion(newCategories)
+      date: timestampConverted,
+      listCategories: [{
+        categoryName: "clothes"
+      }]
     })
   }
 
@@ -51,8 +53,7 @@ function CreateYourList() {
   return (
     <div>
       <Card className="card">
-        {/* <Form onSubmit={submitHandler}> */}
-        <Form>
+        <Form onSubmit={submitHandler}>
           <Row>
             <Col>
               <Form.Group className="title-text mb-4">
