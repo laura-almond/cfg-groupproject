@@ -13,7 +13,7 @@ import ListInfo from "./ListInfo";
 import "../../../../src/styles/YourList.scss";
 import { propTypes } from "react-bootstrap/esm/Image";
 
-const YourList = ({ categoryarray }) => {
+const YourList = () => {
   // Setting states
   // setList function used to alter the list
   const [myList, setMyList] = useState([]);

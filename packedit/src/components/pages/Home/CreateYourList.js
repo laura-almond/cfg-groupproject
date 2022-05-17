@@ -11,56 +11,48 @@ import { collection, getDocs, addDoc, arrayUnion, updateDoc, doc, deleteDoc, Tim
 
 function CreateYourList() {
   //submit handler for when the user presses the submit button
-  function submitHandler(e) {
-    //to prevent the page from reloading/refreshing
-    //this is bad because it resets the state, if we have any
-    e.preventDefault();
-  }
+  // function submitHandler(e) {
+  //   //to prevent the page from reloading/refreshing
+  //   //this is bad because it resets the state, if we have any
+  //   e.preventDefault();
+  // }
 
   const [myList, setMyList] = useState([]);
   const myListCollectionRef = collection(db, "myList")
   const [newListName, setNewListName] = useState("");
   const [newDestination, setNewDestination] = useState("");
   const [newDate, setNewDate] = useState("");
-  const [newCategories, setNewCategories] = useState([]);
+  // const [newCategories, setNewCategories] = useState([]);
   
-  const createList = async (categoriesArray) => {
+  const createList = async () => {
     const timestampConverted = new Date(newDate);
-    newCategories = categoriesArray
+    // newCategories = categoriesArray
     await addDoc(myListCollectionRef, {
       listName: newListName,
       destination: newDestination,
-      date: timestampConverted,
-      ListCategories: arrayUnion(newCategories)
+      date: timestampConverted
+      // ListCategories: arrayUnion(newCategories)
     })
   }
 
-  const handleCheck = async (event) => {
-      let isChecked = event.target.checked;
-      let category = event.target.label;
-      let categoriesArray = [];
-      if (isChecked) {
-        categoriesArray.push({
-          CategoryName: category,
-          CategoryItems: [], 
-        })
-      }
-      return categoriesArray
-  }
-
-  // maybe don't need useEffect here?
-  useEffect(() => {
-    const getMyList = async () => {
-        const data = await getDocs(myListCollectionRef);
-        setMyList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getMyList();
-  });
+  // const handleCheck = async (event) => {
+  //     let isChecked = event.target.checked;
+  //     let category = event.target.label;
+  //     let categoriesArray = [];
+  //     if (isChecked) {
+  //       categoriesArray.push({
+  //         CategoryName: category,
+  //         CategoryItems: [], 
+  //       })
+  //     }
+  //     return categoriesArray
+  // }
 
   return (
     <div>
       <Card className="card">
-        <Form onSubmit={submitHandler}>
+        {/* <Form onSubmit={submitHandler}> */}
+        <Form>
           <Row>
             <Col>
               <Form.Group className="title-text mb-4">
@@ -109,7 +101,7 @@ function CreateYourList() {
                 type="checkbox"
                 label="Clothes"
                 id="string" // accessibility
-                onChange={() => {setNewCategories(handleCheck)}}
+                // onChange={() => {setNewCategories(handleCheck)}}
               />
               <Form.Check
                 className="categories-text"
@@ -117,7 +109,7 @@ function CreateYourList() {
                 type="checkbox"
                 label="Documents"
                 id="string" //accessibility
-                onChange={() => {setNewCategories(handleCheck)}}
+                // onChange={() => {setNewCategories(handleCheck)}}
               />
               <Form.Check
                 className="categories-text"
@@ -125,7 +117,7 @@ function CreateYourList() {
                 type="checkbox"
                 label="Electronics"
                 id="string" // accessibility
-                onChange={() => {setNewCategories(handleCheck)}}
+                // onChange={() => {setNewCategories(handleCheck)}}
               />
               <Form.Check
                 className="categories-text"
@@ -133,7 +125,7 @@ function CreateYourList() {
                 type="checkbox"
                 label="Toiletries"
                 id="string" // accessibility
-                onChange={() => {setNewCategories(handleCheck)}}
+                // onChange={() => {setNewCategories(handleCheck)}}
               />
               <Form.Check
                 className="categories-text"
@@ -141,7 +133,7 @@ function CreateYourList() {
                 type="checkbox"
                 label="COVID-19 Safety"
                 id="string" // accessibility
-                onChange={() => {setNewCategories(handleCheck)}}
+                // onChange={() => {setNewCategories(handleCheck)}}
               />
               <Form.Text className="categories-text text-muted">
                 <br />
@@ -153,7 +145,7 @@ function CreateYourList() {
             className="create-button create-button-text"
             variant="primary"
             type="submit"
-            onClick={createList}
+            onSubmit={createList}
           >
             Create your list
           </Button>
