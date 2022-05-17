@@ -57,7 +57,11 @@ const YourList = () => {
             <p>Categories</p>
             {myList.map((list, i) => {
                 return <div key={i}>
-                  <p>{list.ListCategories[0].CategoryName}</p>
+                  {list.ListCategories.map((category, i) => {
+                    return <div key={i}>
+                      {category.CategoryName}
+                      </div>
+                  })}
                 </div>
               })}
           </div>
@@ -66,9 +70,9 @@ const YourList = () => {
               <p>List Info</p>
               {myList.map((list, i) => {
                 return <div key={i}>
-                  <p>List Name: {list.listName}</p>
-                  <p>Destination: {list.destination}</p>
-                  <p>Date: {list.date.toDate().toDateString()}</p>
+                  <p>List Name: {list.ListName}</p>
+                  <p>Destination: {list.Destination}</p>
+                  <p>Date: {list.Date.toDate().toDateString()}</p>
                 </div>
               })}
             </div>
@@ -76,7 +80,15 @@ const YourList = () => {
               <p>List Body</p>
               {myList.map((list, i) => {
                 return <div key={i}>
-                  <li>{list.ListCategories[0].CategoryItems}</li>
+                  {list.ListCategories.map((category, i) => {
+                    return <div key={i}>
+                      {category.CategoryItems.map((item, i) => {
+                        return <div key={i}>
+                          {item}
+                          </div>
+                      })}
+                      </div>
+                  })}
                 </div>
               })}
             </div>

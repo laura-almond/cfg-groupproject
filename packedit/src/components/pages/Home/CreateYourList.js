@@ -26,21 +26,23 @@ function CreateYourList() {
   const [newCategories, setNewCategories] = useState([]);
 
 
+
   const handleCheck = async (value) => {
     let categoriesArray = [];
     let selectedCategory = {categoryName: value};
     categoriesArray.push(selectedCategory);
     setNewCategories(categoriesArray)
     return newCategories
-  }
+  } // at the moment this overrides the categoriesArray and therefore newCategories every time, 
+  // so need to split it out so that doesn't happen and can add more than one category
 
   const createList = async () => {
     const timestampConverted = new Date(newDate);
     await addDoc(myListCollectionRef, {
-      listName: newListName,
-      destination: newDestination,
-      date: timestampConverted,
-      listCategories: newCategories
+      ListName: newListName,
+      Destination: newDestination,
+      Date: timestampConverted,
+      ListCategories: newCategories
     })
   }
 
