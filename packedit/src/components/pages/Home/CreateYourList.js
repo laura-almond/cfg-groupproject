@@ -145,7 +145,7 @@ function CreateYourList() {
             className="create-button create-button-text"
             variant="primary"
             type="submit"
-            onSubmit={createList}
+            onClick={createList}
           >
             Create your list
           </Button>
