@@ -29,7 +29,10 @@ function CreateYourList() {
 
   const handleCheck = async (value) => {
     let categoriesArray = [];
-    let selectedCategory = {categoryName: value};
+    let selectedCategory = {
+      CategoryName: value,
+      CategoryItems: []
+      };
     categoriesArray.push(selectedCategory);
     setNewCategories(categoriesArray)
     return newCategories
