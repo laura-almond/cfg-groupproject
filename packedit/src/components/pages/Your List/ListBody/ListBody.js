@@ -29,7 +29,7 @@ function ListBody(props) {
             <AddItem category={category.id} />
             <>{category.CategoryItems.map((item, i) => {
               return <div key={i}>
-                {item.itemName}
+                {item.ItemName}
                 {/* <Item item={item.id} itemName={item.ItemName} completed={item.Completed} /> */}
               </div>
             })}</>
