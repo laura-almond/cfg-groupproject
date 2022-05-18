@@ -1,67 +1,54 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import { db } from "../../firebase-config";
+import {
+  collection, query, where, getDocs, doc, addDoc, arrayUnion, updateDoc, deleteDoc,
+  onSnapshot, QuerySnapshot,
+}
+  from "firebase/firestore";
+import Input from "react-widgets/cjs/Input";
+import Button from 'react-bootstrap/Button';
+import AddCategory from "./DisplayCategories/AddCategory";
 
-var categoriesDict = {
-  category1: "clothes",
-  category2: "electrics",
-};
 
-// this component is for users to add an item to one of their categories
-const AddItem = ({
-  inputValue,
-  setInputValue,
-  items,
-  setItems,
-  itemCategory,
-  setItemCategory,
-}) => {
-  const inputValueHandler = (e) => {
-    setInputValue(e.target.value);
+function AddItem(props) {
+  const [adding, setAdding] = useState(false);
+  const [newItem, setNewItem] = useState("");
+  const myListCategoriesCollectionRef = collection(db, "myListCategories")
+
+  const addingItem = () => {
+    setAdding(!adding);
+  }
+
+  const addItem = async (category) => {
+    // const q = query(myListCategoriesCollectionRef, where("CategoryName", "==", category))
+    const categoryDoc = doc(db, "myListCategories", category);
+    const newFields = {
+      CategoryItems: arrayUnion({
+        ItemName: newItem,
+        Completed: false
+      })
+    };
+    await updateDoc(categoryDoc, newFields);
+
+    setNewItem("");
+    setAdding(false);
   };
 
-  const submitItemHandler = (e) => {
-    e.preventDefault();
-    setItems([
-      ...items,
-      {
-        item: inputValue,
-        packed: false,
-        category: itemCategory,
-        id: Math.random() * 1000,
-      },
-    ]);
-    setInputValue("");
-  };
+  return adding ? (
+    <>
+      <input
+        type="text"
+        value={newItem}
+        placeholder="Add Item"
+        onChange={(e) => setNewItem(e.target.value)}
+      />
+      <Button onClick={() => {addItem(props.category)}} disabled={newItem.length == 0}>Confirm</Button>
+      <Button onClick={addingItem}>Cancel</Button>
+    </>
+  ) : (
+    <Button onClick={addingItem}>Add Item</Button>
+  )
+}
 
-  const itemCategoryHandler = (e) => {
-    // does drop down list have 'select item: on first opening?
-    //if so need if statement here that doesn't allow tha to to be saved as category
-    setItemCategory(e.target.value);
-    /*         setCategory([
-            ...category, 
-            {category: e.target.value, id: Math.random() * 1000},
-        ]); */
-  };
-
-  return (
-    <div>
-      <p>Placeholder for add button</p>
-      <form>
-        <input value={inputValue} onChange={inputValueHandler}></input>
-        <button onClick={submitItemHandler} type="submit">
-          Add item
-        </button>
-        <div>
-          {/* Doesn't set first item as first category. */}
-          <select onChange={itemCategoryHandler} name="category">
-            {Object.entries(categoriesDict).map(([key, value]) => (
-              <option key={key}>{value}</option>
-            ))}
-            );
-          </select>
-        </div>
-      </form>
-    </div>
-  );
-};
 
 export default AddItem;

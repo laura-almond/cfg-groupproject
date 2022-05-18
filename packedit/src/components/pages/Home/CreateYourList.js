@@ -7,7 +7,7 @@ import Card from "react-bootstrap/Card";
 import "../../../styles/CreateYourList.scss";
 import { useState, useEffect } from 'react';
 import { db } from '../../firebase-config';
-import { collection, getDocs, addDoc, arrayUnion, updateDoc, doc, deleteDoc, Timestamp, firestore } from 'firebase/firestore';
+import { collection, writeBatch, getDocs, addDoc, arrayUnion, updateDoc, doc, deleteDoc, Timestamp, firestore } from 'firebase/firestore';
 import { dataValue } from "react-widgets/cjs/Accessors";
 
 function CreateYourList() {
@@ -18,26 +18,21 @@ function CreateYourList() {
     e.preventDefault();
   }
 
-  const [myList, setMyList] = useState([]);
+  // const [myList, setMyList] = useState([]);
   const myListCollectionRef = collection(db, "myList")
+  const myListCategoriesCollectionRef = collection(db, "myListCategories")
   const [newListName, setNewListName] = useState("");
   const [newDestination, setNewDestination] = useState("");
   const [newDate, setNewDate] = useState("");
-  const [newCategories, setNewCategories] = useState([]);
+  const [newCategories, setNewCategories] = useState("");
 
-
-
-  const handleCheck = async (value) => {
-    let categoriesArray = [];
-    let selectedCategory = {
-      CategoryName: value,
+  const handleCheck = async (category) => {
+    setNewCategories({
+      CategoryName: category,
       CategoryItems: []
-      };
-    categoriesArray.push(selectedCategory);
-    setNewCategories(categoriesArray)
-    return newCategories
-  } // at the moment this overrides the categoriesArray and therefore newCategories every time, 
-  // so need to split it out so that doesn't happen and can add more than one category
+    })
+  } 
+  // at the moment this only adds one of the categories, need to figure out how to stop it overriding
 
   const createList = async () => {
     const timestampConverted = new Date(newDate);
@@ -45,8 +40,11 @@ function CreateYourList() {
       ListName: newListName,
       Destination: newDestination,
       Date: timestampConverted,
-      ListCategories: newCategories
-    })
+    });
+
+    await addDoc(myListCategoriesCollectionRef,
+      newCategories
+      );
   }
 
   return (
@@ -145,7 +143,7 @@ function CreateYourList() {
             className="create-button create-button-text"
             variant="primary"
             type="submit"
-            onClick={createList}
+            onClick={createList} // need to add in functionality here that routes the user to the Your List page once this is complete
           >
             Create your list
           </Button>

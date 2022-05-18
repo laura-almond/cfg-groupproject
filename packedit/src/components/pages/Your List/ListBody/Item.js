@@ -1,31 +1,34 @@
-import React from "react";
+import Button from 'react-bootstrap/Button';
+import React, {useState, useEffect} from "react";
+import { db } from "../../../firebase-config";
+import {
+  collection, query, where, getDocs, doc, addDoc, arrayUnion, updateDoc, deleteDoc,
+  onSnapshot, QuerySnapshot,
+}
+  from "firebase/firestore";
 
-const Item = ({ item, text, items, setItems }) => {
-    //events
-    const packItemHandler = () => {
-    setItems(items.map(item1 => {
-        if(item1.id === item1.id) {
-            return {
-                ...item1, packed: !item1.packed
-            }
-        }
-        return item1;
-        })
-    );
-};
+function Item(props) {
+    const myListCategoriesCollectionRef = collection(db, "myListCategories");
 
-const deleteItemHandler = () => {
-    setItems(items.filter((el) => el.id !== item.id));
-};
+    const deleteItem = async(item) => {
+    }
 
+    const editItem = async(itemName) => {
 
-return (
-    <div className="item">
-        <button  onClick={packItemHandler}> Complete</button>
-        <li >{text}</li>
-        <button  onClick={deleteItemHandler}> Delete </button>
-        </div>
-    );
+    }
+
+    const completeItem = async(item, complete) => {
+
+    }
+
+    return(
+        <>
+        <Button onClick={() => {deleteItem(props.item)}}>Delete Item</Button>
+        <li>{props.itemName}</li>
+        <Button onClick={() => {editItem(props.itemName)}}>Edit Item</Button>
+        <Button onClick={() => {completeItem(props.item, props.completed)}}>Tick me off!</Button>
+        </>
+    )
 }
 
 export default Item;

@@ -9,11 +9,11 @@ import Item from "./ListBody/Item";
 import ListBody from "./ListBody/ListBody";
 import DisplayCategories from "./DisplayCategories/DisplayCategories";
 import ListInfo from "./ListInfo";
-
 import "../../../../src/styles/YourList.scss";
 import { propTypes } from "react-bootstrap/esm/Image";
+import AddCategory from "./DisplayCategories/AddCategory";
 
-const YourList = () => {
+function YourList() {
   // Setting states
   // setList function used to alter the list
   const [myList, setMyList] = useState([]);
@@ -54,8 +54,10 @@ const YourList = () => {
         </div>
         <div className="row" style={{ paddingTop: "170px", paddingLeft: "2%" }}>
           <div className="col-3 mx-5 your-list-card">
-            <p>Categories</p>
-            {myList.map((list, i) => {
+            <h3>Categories</h3>
+            <DisplayCategories />
+            <AddCategory />
+            {/* {myList.map((list, i) => {
                 return <div key={i}>
                   {list.ListCategories.map((category, i) => {
                     return <div key={i}>
@@ -63,11 +65,12 @@ const YourList = () => {
                       </div>
                   })}
                 </div>
-              })}
+              })} */}
+
           </div>
           <div className="col ml-5" style={{ paddingRight: "7%" }}>
             <div className="row your-list-info-card">
-              <p>List Info</p>
+              <h3>List Info</h3>
               {myList.map((list, i) => {
                 return <div key={i}>
                   <p>List Name: {list.ListName}</p>
@@ -77,8 +80,9 @@ const YourList = () => {
               })}
             </div>
             <div className="row mt-3">
-              <p>List Body</p>
-              {myList.map((list, i) => {
+              <h3>List Body</h3>
+              <ListBody />
+              {/* {myList.map((list, i) => {
                 return <div key={i}>
                   {list.ListCategories.map((category, i) => {
                     return <div key={i}>
@@ -90,7 +94,7 @@ const YourList = () => {
                       </div>
                   })}
                 </div>
-              })}
+              })} */}
             </div>
           </div>
         </div>
