@@ -27,7 +27,7 @@ const YourList = () => {
   useEffect(() => {
     const getMyList = async () => {
       const data = await getDocs(myListCollectionRef);
-      setMyList(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
+      setMyList(data.docs.map((doc) => ({...doc.data(), id: doc.id}))); // at the moment this displays all documents in the collection, we want only one
       //after receiving data, set isLoading to false
       setIsLoading(false);
     };
