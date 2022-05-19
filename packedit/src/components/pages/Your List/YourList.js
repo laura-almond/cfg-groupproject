@@ -73,9 +73,9 @@ function YourList() {
               <h3>List Info</h3>
               {myList.map((list, i) => {
                 return <div key={i}>
-                  <p>List Name: {list.ListName}</p>
-                  <p>Destination: {list.Destination}</p>
-                  <p>Date: {list.Date.toDate().toDateString()}</p>
+                  <span className="your-list-info-card-trip">{list.ListName}</span>
+                  <span>{list.Destination}</span>
+                  <span className="your-list-info-card-date">{list.Date.toDate().toDateString()}</span>
                 </div>
               })}
             </div>
