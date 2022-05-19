@@ -3,10 +3,25 @@
   background: white;
   font-size: 1.5rem;
   color: black;
+  border-radius: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   transition: all 1s ease;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.list-body {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 13px;
+  margin-bottom: 2.5vh;
+  
+}
+
+.category-header {
+  background: #00A698;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
 }
 
 .your-list-info-card {
@@ -21,7 +36,7 @@
   background: rgba(255, 255, 255, 0.8);
   border-radius: 13px;
   margin-bottom: 2.5vh;
-  
+
 }
 
 .your-list-info-card-trip {

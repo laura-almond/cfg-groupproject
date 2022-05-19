@@ -70,7 +70,6 @@ function YourList() {
           </div>
           <div className="col ml-5" style={{ paddingRight: "7%" }}>
             <div className="row your-list-info-card">
-              <h3>List Info</h3>
               {myList.map((list, i) => {
                 return <div key={i}>
                   <span className="your-list-info-card-trip">{list.ListName}</span>

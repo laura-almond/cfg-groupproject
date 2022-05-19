@@ -24,11 +24,11 @@ function ListBody(props) {
   return (
     <>
         {myListCategories.map((category, i) => {
-          return <div key={i}>
-            <h4>{category.CategoryName}</h4>
+          return <div key={i} className="list-body">
+            <h4 className="category-header">{category.CategoryName}</h4>
             <AddItem category={category.id} />
             <>{category.CategoryItems.map((item, i) => {
-              return <div key={i}>
+              return <div key={i} className="item">
                 {item.ItemName}
                 {/* <Item item={item.id} itemName={item.ItemName} completed={item.Completed} /> */}
               </div>
