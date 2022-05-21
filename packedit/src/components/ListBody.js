@@ -63,7 +63,7 @@ function ListBody(props) {
                 {item.ItemName} 
                  {/* <button onClick={()=> checkTheItem(i,j, category.id)}>check</button>  */}
                  
-                 <button onClick={() => deleteTheItem(i, j, category.id)}>x</button>
+                 <button className="delete-button" onClick={() => deleteTheItem(i, j, category.id)}>x</button>
                 
               </div>
             })}</>

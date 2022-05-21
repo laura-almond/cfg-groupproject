@@ -157,7 +157,7 @@ function YourList() {
                 <span>{trip.Destination}</span>
                 <span className="your-list-info-card-date">{trip.Date.toDate().toDateString()}</span>
                 {/* <p>trip id is {trip.id}</p> */}
-                <Button onClick={()=>DeleteTrip(trip.id)}>Cancel</Button>
+                <Button onClick={()=>DeleteTrip(trip.id) }>Cancel</Button>
               </div>
               
              
