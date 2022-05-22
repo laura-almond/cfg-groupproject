@@ -1,29 +1,9 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
+import { Form, Button, Row, Col, Card } from "react-bootstrap";
 import "../styles/CreateYourList.scss";
 import { db } from "../Firebase/firebase-config";
-import {
-  collection,
-  writeBatch,
-  getDocs,
-  addDoc,
-  setDoc,
-  arrayUnion,
-  updateDoc,
-  doc,
-  deleteDoc,
-  Timestamp,
-  firestore,
-  DocumentReference,
-} from "firebase/firestore";
-import { dataValue } from "react-widgets/cjs/Accessors";
+import { collection, addDoc } from "firebase/firestore";
 
 function CreateYourList() {
   // submit handler for when the user presses the submit button
@@ -33,37 +13,20 @@ function CreateYourList() {
     e.preventDefault();
   }
 
-  // const [myList, setMyList] = useState([]);
-  // const myListCollectionRef = collection(db, "myList")
-  // const myListCategoriesCollectionRef = collection(db, "myListCategories")
   const navigate = useNavigate();
-
   const myListCollectionRef = collection(db, "trips");
-  const myListCategoriesCollectionRef = collection(db, "categories");
-
   const [newListName, setNewListName] = useState("");
   const [newDestination, setNewDestination] = useState("");
   const [newDate, setNewDate] = useState("");
-  const [newCategories, setNewCategories] = useState("");
-
   const [clothesCheck, setClothesCheck] = useState(false);
   const [documentCheck, setDocumentCheck] = useState(false);
-  const [electronicCheck, setelectronicCheck] = useState(false);
+  const [electronicsCheck, setElectronicsCheck] = useState(false);
   const [toiletriesCheck, setToiletriesCheck] = useState(false);
   const [covidCheck, setCovidCheck] = useState(false);
-
-  const handleCheck = async (category) => {
-    setNewCategories({
-      CategoryName: category,
-      CategoryItems: [],
-    });
-  };
-  // at the moment this only adds one of the categories, need to figure out how to stop it overriding
 
   const createList = async () => {
     //redirecting user to your list page
     let path = `/your-list`;
-    navigate(path);
 
     const timestampConverted = new Date(newDate);
     await addDoc(myListCollectionRef, {
@@ -83,10 +46,10 @@ function CreateYourList() {
           { CategoryName: "Documents", CategoryItems: [] }
         );
       }
-      if (electronicCheck) {
+      if (electronicsCheck) {
         addDoc(
           collection(db, "trips/" + DocumentReference.id + "/categories"),
-          { CategoryName: "Eletronics", CategoryItems: [] }
+          { CategoryName: "Electronics", CategoryItems: [] }
         );
       }
       if (toiletriesCheck) {
@@ -101,16 +64,12 @@ function CreateYourList() {
           { CategoryName: "COVID-19 Safety", CategoryItems: [] }
         );
       }
+        navigate('/your-list',{state:{tripID: DocumentReference.id}});
     });
-    //Old code
-    // await addDoc(myListCategoriesCollectionRef,
-    //   newCategories
-    //   );
   };
 
   return (
     <div>
-      {/* {documentCheck ? <>checked</> : <>not checked</>} */}
       <Card className="card">
         <Form onSubmit={submitHandler}>
           <Row>
@@ -166,8 +125,7 @@ function CreateYourList() {
                 inline
                 type="checkbox"
                 label="Clothes"
-                id="string" // accessibility
-                // onChange={() => {handleCheck("Clothes")}}
+                id="clothes" // accessibility
                 onChange={() => setClothesCheck(!clothesCheck)}
               />
               <Form.Check
@@ -175,8 +133,7 @@ function CreateYourList() {
                 inline
                 type="checkbox"
                 label="Documents"
-                id="string" //accessibility
-                // onChange={() => { handleCheck("Documents") }}
+                id="documents" //accessibility
                 onChange={() => setDocumentCheck(!documentCheck)}
               />
               <Form.Check
@@ -184,17 +141,15 @@ function CreateYourList() {
                 inline
                 type="checkbox"
                 label="Electronics"
-                id="string" // accessibility
-                // onChange={() => { handleCheck("Electronics") }}
-                onChange={() => setelectronicCheck(!electronicCheck)}
+                id="eletronics" // accessibility
+                onChange={() => setElectronicsCheck(!electronicsCheck)}
               />
               <Form.Check
                 className="categories-text"
                 inline
                 type="checkbox"
                 label="Toiletries"
-                id="string" // accessibility
-                // onChange={() => { handleCheck("Toiletries") }}
+                id="toiletries" // accessibility
                 onChange={() => setToiletriesCheck(!toiletriesCheck)}
               />
               <Form.Check
@@ -202,8 +157,7 @@ function CreateYourList() {
                 inline
                 type="checkbox"
                 label="COVID-19 Safety"
-                id="string" // accessibility
-                // onChange={() => { handleCheck("COVID-19 Safety") }}
+                id="covid" // accessibility
                 onChange={() => setCovidCheck(!covidCheck)}
               />
               <Form.Text className="categories-text text-muted">
@@ -216,7 +170,7 @@ function CreateYourList() {
             className="create-button create-button-text"
             variant="primary"
             type="submit"
-            onClick={createList} // need to add in functionality here that routes the user to the Your List page once this is complete
+            onClick={createList}
           >
             Create your list
           </Button>

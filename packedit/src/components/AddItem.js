@@ -1,14 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, { useState } from "react";
 import { db } from "../Firebase/firebase-config";
-import {
-  collection, query, where, getDocs, doc, addDoc, arrayUnion, updateDoc, deleteDoc,
-  onSnapshot, QuerySnapshot,
-}
-  from "firebase/firestore";
-import Input from "react-widgets/cjs/Input";
+import { doc, arrayUnion, updateDoc, } from "firebase/firestore";
 import Button from 'react-bootstrap/Button';
-import AddCategory from "./AddCategory";
-
 
 function AddItem(props) {
   const [adding, setAdding] = useState(false);
@@ -19,8 +12,7 @@ function AddItem(props) {
   }
 
   const addItem = async (category) => {
-    // const q = query(myListCategoriesCollectionRef, where("CategoryName", "==", category))
-    const categoryDoc = doc(db, "trips/"+props.theTrip+"/categories", category);
+    const categoryDoc = doc(db, "trips/" + props.theTrip + "/categories", category);
     const newFields = {
       CategoryItems: arrayUnion({
         ItemName: newItem,
@@ -41,7 +33,7 @@ function AddItem(props) {
         placeholder="Add Item"
         onChange={(e) => setNewItem(e.target.value)}
       />
-      <Button onClick={() => {addItem(props.category)}} disabled={newItem.length == 0}>Confirm</Button>
+      <Button onClick={() => { addItem(props.category) }} disabled={newItem.length === 0}>Confirm</Button>
       <Button onClick={addingItem}>Cancel</Button>
     </>
   ) : (

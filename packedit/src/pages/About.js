@@ -1,11 +1,12 @@
 import React from "react";
-import "../styles/Home.scss";
-import NavBar from '../components/NavBar';
-import { Container, Row, Col, Image } from 'react-bootstrap';
+import { Row, Col, Image } from 'react-bootstrap';
 import dog1 from "../styles/Images/Photos/dog1.jpg";
 import dog2 from "../styles/Images/Photos/dog2.jpg";
 import dog3 from "../styles/Images/Photos/dog3.jpg";
 import dog4 from "../styles/Images/Photos/dog4.jpg";
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
+import "../styles/Home.scss";
 
 
 const About = () => {
@@ -25,7 +26,7 @@ const About = () => {
                 <p>We are Grace, Laura, Michelle & Eilidh.</p>
                 <p>
                   We are aspiring software developers and this website is our final
-                  project for the <a href="https://codefirstgirls.com/" className="a" target="_blank">Code First Girls</a> Degree!
+                  project for the <a href="https://codefirstgirls.com/" className="a" target="_blank" rel="noreferrer">Code First Girls</a> Degree!
                 </p>
                 <p>
                   PackedIt makes trip planning easier by allowing users to make an
@@ -56,6 +57,7 @@ const About = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

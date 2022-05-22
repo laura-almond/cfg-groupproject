@@ -16,6 +16,7 @@
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-widgets": "^5.8.4",
     "styled-components": "^5.3.5",
     "typeface-nunito": "^1.1.13",
     "typeface-raleway": "^1.1.13",
